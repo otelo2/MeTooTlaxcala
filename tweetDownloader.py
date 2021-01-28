@@ -8,15 +8,15 @@ api = tweepy.API(auth)
 
 #Used for downloading the tweets from the account and storing them in a text file.
 def downloadTweets():
-    f = open("tweets.txt", "w", encoding="utf-8")
+    f = open("tweets.txt", "a", encoding="utf-8")
 
-    #Gets the complete timeline without replies or retweets, 
+    #Gets the complete timeline without replies or retweets, and saves it on a text file.
     for tweet in tweepy.Cursor(api.user_timeline, id='MeToo_Tlx', exclude_replies=True, include_rts=False, tweet_mode='extended').items(3000):
         try:
             text = tweet.full_text
             text = text.replace('\n',' -- ')
-            print(text)
-            print('\n')
+            #print(text)
+            #print('\n')
             f.write(text)
             f.write('\n')
         except UnicodeEncodeError:
@@ -24,8 +24,14 @@ def downloadTweets():
 
     f.close()
 
+def setFileTemplate():
+    f = open("tweets.txt", "w", encoding="utf-8")
+    f.write("#Nombre    Apellido Paterno    Apellido Materno    Denuncia   Imagenes Fecha   Link")
+    f.close()
+
 def main():
-    print("Main Function")
+    setFileTemplate()
+    downloadTweets()
 
 if __name__ == "__main__":
     main()
