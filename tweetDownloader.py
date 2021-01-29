@@ -1,5 +1,7 @@
 import tweepy
 import json
+import os
+from multiprocessing.dummy import Pool as ThreadPool
 from keys import apiKey, apiSecret, accessToken, accessTokenSecret
 
 auth = tweepy.OAuthHandler(apiKey, apiSecret)
@@ -32,17 +34,22 @@ def downloadTweets():
 
 #Testing function
 def test():
-    for tweet in tweepy.Cursor(api.user_timeline, id='MeToo_Tlx', exclude_replies=True, include_rts=False, tweet_mode='extended').items(1):
+    for tweet in tweepy.Cursor(api.user_timeline, id='MeToo_Tlx', exclude_replies=True, include_rts=False, tweet_mode='extended').items(5):
         #Name of the person
-        print("Nombre: ", findName(tweet.full_text))
+        nombre = findName(tweet.full_text)
+        print("Nombre: ", nombre)
 
         #Text of the tweet
-        print("Denuncia: " + tweet.full_text)
+        denuncia = tweet.full_text
+        print("Denuncia: " + denuncia)
 
         #Images of the tweet
         if "media" in tweet.entities:
             for media in tweet.extended_entities['media']:
-                print("Imagen: " + media['media_url'])
+                #print(len(tweet.extended_entities['media']))
+                url = media['media_url']
+                print("Imagen: " + url)
+                downloadImages(nombre, url)
 
         #Time and date of the tweet
         print("Fecha: " + str(tweet.created_at))
@@ -94,9 +101,13 @@ def findName(text):
     
     return fullName
 
+def downloadImages(person, url):
+    downloadCommand = "cd img && wget -O \""+person+url[-7]+".jpg\" " +url
+    os.system(downloadCommand)
+
 def main():
     #print("a")
-    print("Nombre: ", findName('Carlos Sarmiento Tuxpan de San Lorenzo Axocomanitl'))
+    test()
 
 if __name__ == "__main__":
     main()
