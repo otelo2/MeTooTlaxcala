@@ -11,29 +11,52 @@ api = tweepy.API(auth)
 #Sets the template for the text file
 def setFileTemplate():
     f = open("tweets.txt", "w", encoding="utf-8")
-    f.write("#Nombre    Apellido Paterno    Apellido Materno    Denuncia   Imagenes Fecha   Link")
+    f.write("#Nombre    Apellido Paterno    Apellido Materno    Denuncia   Imagenes Fecha   Link \n")
     f.close()
 
-#Used for downloading the tweets from the account and storing them in a text file.
-def downloadTweets():
-    f = open("tweets.txt", "a", encoding="utf-8")
-
-    #Gets the complete timeline without replies or retweets, and saves it on a text file.
+#Used for downloading the tweets from the account, processing them and storing them in a text file.
+#No terminal output (except for wget maybe)
+def processTweetsToFile(images=True):
+    #Open the file where the tweets are stored
+    f = open("tweets.txt", 'a', encoding="utf-8")
+    
     for tweet in tweepy.Cursor(api.user_timeline, id='MeToo_Tlx', exclude_replies=True, include_rts=False, tweet_mode='extended').items(3000):
-        try:
-            text = tweet.full_text
-            text = text.replace('\n',' -- ')
-            #print(text)
-            #print('\n')
-            f.write(text)
-            f.write('\n')
-        except UnicodeEncodeError:
-            print("potential emoji found")
+        #Clear the output for the text file
+        textForFile = ''
 
+        #Name of the person
+        nombre = findName(tweet.full_text)
+        textForFile += nombre + "    "
+
+        #Text of the tweet
+        denuncia = tweet.full_text
+        textForFile += denuncia + "    "
+
+        #Images of the tweet
+        if "media" in tweet.entities:
+            for media in tweet.extended_entities['media']:
+                #print(len(tweet.extended_entities['media']))
+                url = media['media_url']
+                #Download images (or not)
+                if images == True:
+                    imgDirectory = downloadImages(nombre, url)
+                    textForFile += imgDirectory + "    "
+
+        #Time and date of the tweet
+        fecha = str(tweet.created_at)
+        textForFile += fecha + "    "
+
+        #Url of the tweet
+        url = "https://twitter.com/twitter/statuses/" + str(tweet.id)
+        textForFile += url + "    "
+
+        #Write the info to the text file
+        f.write(textForFile + "\n")
     f.close()
 
-#Testing function
-def test():
+#Used for downloading the tweets from the account, processing them and displaying the info in the terminal
+#Only terminal output 
+def processTweetsToTerm(images=False):
     for tweet in tweepy.Cursor(api.user_timeline, id='MeToo_Tlx', exclude_replies=True, include_rts=False, tweet_mode='extended').items(5):
         #Name of the person
         nombre = findName(tweet.full_text)
@@ -41,24 +64,32 @@ def test():
 
         #Text of the tweet
         denuncia = tweet.full_text
-        print("Denuncia: " + denuncia)
+        print("Denuncia: ", denuncia)
 
         #Images of the tweet
         if "media" in tweet.entities:
             for media in tweet.extended_entities['media']:
                 #print(len(tweet.extended_entities['media']))
                 url = media['media_url']
-                print("Imagen: " + url)
-                downloadImages(nombre, url)
+                #Download images (or not)
+                if images == True:
+                    imgDirectory = downloadImages(nombre, url)
+                    print("ImgDirectory: ", imgDirectory)
 
         #Time and date of the tweet
-        print("Fecha: " + str(tweet.created_at))
+        fecha = str(tweet.created_at)
+        print("Fecha: ", fecha)
 
         #Url of the tweet
         url = "https://twitter.com/twitter/statuses/" + str(tweet.id)
-        print("Link: " + url)
+        print("Url: ", url)
 
-        print('\n')
+        print("\n")
+
+#Testing function
+def test():
+    #Nothing for now :)
+    a=1
 
 def findName(text):
     #Refresh Output
@@ -102,12 +133,15 @@ def findName(text):
     return fullName
 
 def downloadImages(person, url):
-    downloadCommand = "cd img && wget -O \""+person+url[-7]+".jpg\" " +url
+    filename = person+url[-7]
+    downloadCommand = "cd img && wget -O \""+filename+".jpg\" " +url
     os.system(downloadCommand)
+    return "/img/"+filename+".jpg"
 
 def main():
     #print("a")
-    test()
+    setFileTemplate()
+    processTweetsToFile()
 
 if __name__ == "__main__":
     main()
