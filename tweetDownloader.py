@@ -149,13 +149,35 @@ def downloadImages(person, url):
     return "/img/"+filename+".jpg"
 
 #Checks if the last stored tweet in the file is the latest tweet
-def checkNewTweet():
-    a=1
+def newTweet():
+    #Find ID of the most recent tweet in the file
+    with open('tweets.txt', 'r', encoding='utf-8') as f:
+        lines = f.read().splitlines()
+        last_line = lines[-1]
+        last_line = last_line.split()
+        latestFileID = last_line[-1]
+
+    #Find ID of the latest tweet in Twitter
+    for tweet in tweepy.Cursor(api.user_timeline, id='MeToo_Tlx', exclude_replies=True, include_rts=False, tweet_mode='extended').items(1):
+        latestID = tweet.id
+    
+    #Check if they are the same
+    if (int(latestFileID) == latestID):
+        #print("We already have the latest tweet. ", latestFileID, latestID)
+        return False
+    else:
+        #print("We don't have the latest tweet.", latestFileID, latestID)
+        return True
+        
 
 def main():
     #print("a")
     #setFileTemplate()
-    processTweetsToFile(False)
+    #downloadImages = False
+    #processTweetsToFile(downloadImages)
+    if (newTweet()):
+        downloadImages = False
+        processTweetsToFile(downloadImages)
     #processTweetsToTerm()
 
 if __name__ == "__main__":
