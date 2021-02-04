@@ -53,6 +53,7 @@ def processTweetsToFile(images=True):
         #Url of the tweet
         url = "https://twitter.com/twitter/statuses/" + str(tweet.id)
         textForFile += url + "    "
+        textForFile += tweet.id + "    "
 
         #Write the info to the text file
         f.write(textForFile + "\n")
@@ -91,6 +92,7 @@ def processTweetsToTerm(images=False):
         #Url of the tweet
         url = "https://twitter.com/twitter/statuses/" + str(tweet.id)
         print("Url: ", url)
+        print("ID: ", tweet.id)
 
         print("\n")
 
@@ -146,10 +148,14 @@ def downloadImages(person, url):
     os.system(downloadCommand)
     return "/img/"+filename+".jpg"
 
+#Checks if the last stored tweet in the file is the latest tweet
+def checkNewTweet():
+    a=1
+
 def main():
     #print("a")
     #setFileTemplate()
-    processTweetsToFile()
+    processTweetsToFile(False)
     #processTweetsToTerm()
 
 if __name__ == "__main__":
