@@ -18,9 +18,13 @@ def setFileTemplate():
 #No terminal output (except for wget maybe)
 def processTweetsToFile(images=True):
     #Open the file where the tweets are stored
-    f = open("tweets.txt", 'a', encoding="utf-8")
+    f = open("tweets.txt", 'w', encoding="utf-8")
     
+    tweets = []
     for tweet in tweepy.Cursor(api.user_timeline, id='MeToo_Tlx', exclude_replies=True, include_rts=False, tweet_mode='extended').items(3000):
+        tweets.append(tweet)
+
+    for tweet in reversed(tweets):
         #Clear the output for the text file
         textForFile = ''
 
@@ -57,7 +61,11 @@ def processTweetsToFile(images=True):
 #Used for downloading the tweets from the account, processing them and displaying the info in the terminal
 #Only terminal output 
 def processTweetsToTerm(images=False):
+    tweets = []
     for tweet in tweepy.Cursor(api.user_timeline, id='MeToo_Tlx', exclude_replies=True, include_rts=False, tweet_mode='extended').items(5):
+        tweets.append(tweet)
+
+    for tweet in reversed(tweets):
         #Name of the person
         nombre = findName(tweet.full_text)
         print("Nombre: ", nombre)
@@ -87,9 +95,9 @@ def processTweetsToTerm(images=False):
         print("\n")
 
 #Testing function
-def test():
+#def test():
     #Nothing for now :)
-    a=1
+#    a=1
 
 def findName(text):
     #Refresh Output
@@ -140,8 +148,9 @@ def downloadImages(person, url):
 
 def main():
     #print("a")
-    setFileTemplate()
+    #setFileTemplate()
     processTweetsToFile()
+    #processTweetsToTerm()
 
 if __name__ == "__main__":
     main()
