@@ -53,7 +53,7 @@ def processTweetsToFile(images=True):
         #Url of the tweet
         url = "https://twitter.com/twitter/statuses/" + str(tweet.id)
         textForFile += url + "    "
-        textForFile += tweet.id + "    "
+        textForFile += str(tweet.id) + "    "
 
         #Write the info to the text file
         f.write(textForFile + "\n")
