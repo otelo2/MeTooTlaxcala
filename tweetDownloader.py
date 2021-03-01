@@ -176,8 +176,11 @@ def main():
     #downloadImages = False
     #processTweetsToFile(downloadImages)
     if (newTweet()):
-        downloadImages = False
+        print("There are new tweets, starting download...")
+        downloadImages = True
         processTweetsToFile(downloadImages)
+    else:
+        print("No new tweets. \nExiting the program.")
     #processTweetsToTerm()
 
 if __name__ == "__main__":
