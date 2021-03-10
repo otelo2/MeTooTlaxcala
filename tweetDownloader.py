@@ -16,12 +16,12 @@ def setFileTemplate():
 
 #Used for downloading the tweets from the account, processing them and storing them in a text file.
 #No terminal output (except for wget maybe)
-def processTweetsToFile(images=True):
+def processTweetsToFile(images=True, numOfTweets=3000):
     #Open the file where the tweets are stored
-    f = open("tweets.txt", 'w', encoding="utf-8")
+    f = open("tweets.txt", 'a', encoding="utf-8")
     
     tweets = []
-    for tweet in tweepy.Cursor(api.user_timeline, id='MeToo_Tlx', exclude_replies=True, include_rts=False, tweet_mode='extended').items(3000):
+    for tweet in tweepy.Cursor(api.user_timeline, id='MeToo_Tlx', exclude_replies=True, include_rts=False, tweet_mode='extended').items(numOfTweets):
         tweets.append(tweet)
 
     for tweet in reversed(tweets):
@@ -153,9 +153,12 @@ def newTweet():
     #Find ID of the most recent tweet in the file
     with open('tweets.txt', 'r', encoding='utf-8') as f:
         lines = f.read().splitlines()
-        last_line = lines[-1]
-        last_line = last_line.split()
-        latestFileID = last_line[-1]
+        try:
+            last_line = lines[-1]
+            last_line = last_line.split()
+            latestFileID = last_line[-1]
+        except IndexError:
+            return True
 
     #Find ID of the latest tweet in Twitter
     for tweet in tweepy.Cursor(api.user_timeline, id='MeToo_Tlx', exclude_replies=True, include_rts=False, tweet_mode='extended').items(1):
@@ -169,6 +172,42 @@ def newTweet():
         #print("We don't have the latest tweet.", latestFileID, latestID)
         return True
         
+#Checks how up to date is our data and update if we are missing tweets.Tells how many tweets we are missing.
+def numOfTweetsToDownload():
+    latestID=-1
+    check=1
+    tweets=0
+
+    #Find ID of the most recent tweet in the file
+    with open('tweets.txt', 'r', encoding='utf-8') as f:
+        lines = f.read().splitlines()
+        try:
+            last_line = lines[-1]
+            last_line = last_line.split()
+            latestFileID = last_line[-1]
+        except IndexError:
+            return 3000
+
+    #Find ID of the most recent tweet in Twitter
+    for tweet in tweepy.Cursor(api.user_timeline, id='MeToo_Tlx', exclude_replies=True, include_rts=False, tweet_mode='extended').items(check):
+        latestID = tweet.id
+
+    if int(latestFileID) != latestID:
+        #We have to download at least one, check how many more we have to download
+        #While we dont have the latest tweet, count how many we have to download
+        while int(latestFileID) != latestID:
+            #Find ID of the latest tweet in Twitter
+            for tweet in tweepy.Cursor(api.user_timeline, id='MeToo_Tlx', exclude_replies=True, include_rts=False, tweet_mode='extended').items(check):
+                latestID = tweet.id
+            
+            check = check + 1
+            tweets = tweets + 1
+
+        tweets = tweets - 1
+        #print("You have to download", tweets)
+        return tweets
+
+
 
 def main():
     #print("a")
@@ -176,11 +215,13 @@ def main():
     #downloadImages = False
     #processTweetsToFile(downloadImages)
     if (newTweet()):
-        print("There are new tweets, starting download...")
+        amount = numOfTweetsToDownload()
+        print(f'There are {amount} new tweets, starting download...')
         downloadImages = True
-        processTweetsToFile(downloadImages)
+        processTweetsToFile(downloadImages, amount)
     else:
         print("No new tweets. \nExiting the program.")
+    
     #processTweetsToTerm()
 
 if __name__ == "__main__":
