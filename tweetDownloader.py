@@ -1,18 +1,19 @@
 import tweepy
 import json
 import os
-from multiprocessing.dummy import Pool as ThreadPool
 from keys import apiKey, apiSecret, accessToken, accessTokenSecret
 
 auth = tweepy.OAuthHandler(apiKey, apiSecret)
 auth.set_access_token(accessToken, accessTokenSecret)
 api = tweepy.API(auth)
 
+
 #Sets the template for the text file
 def setFileTemplate():
     f = open("tweets.txt", "w", encoding="utf-8")
     f.write("#Nombre    Apellido Paterno    Apellido Materno    Denuncia   Imagenes Fecha   Link \n")
     f.close()
+
 
 #Used for downloading the tweets from the account, processing them and storing them in a text file.
 #No terminal output (except for wget maybe)
@@ -59,47 +60,6 @@ def processTweetsToFile(images=True, numOfTweets=3000):
         f.write(textForFile + "\n")
     f.close()
 
-#Used for downloading the tweets from the account, processing them and displaying the info in the terminal
-#Only terminal output 
-def processTweetsToTerm(images=False):
-    tweets = []
-    for tweet in tweepy.Cursor(api.user_timeline, id='MeToo_Tlx', exclude_replies=True, include_rts=False, tweet_mode='extended').items(5):
-        tweets.append(tweet)
-
-    for tweet in reversed(tweets):
-        #Name of the person
-        nombre = findName(tweet.full_text)
-        print("Nombre: ", nombre)
-
-        #Text of the tweet
-        denuncia = tweet.full_text
-        print("Denuncia: ", denuncia)
-
-        #Images of the tweet
-        if "media" in tweet.entities:
-            for media in tweet.extended_entities['media']:
-                #print(len(tweet.extended_entities['media']))
-                url = media['media_url']
-                #Download images (or not)
-                if images == True:
-                    imgDirectory = downloadImages(nombre, url)
-                    print("ImgDirectory: ", imgDirectory)
-
-        #Time and date of the tweet
-        fecha = str(tweet.created_at)
-        print("Fecha: ", fecha)
-
-        #Url of the tweet
-        url = "https://twitter.com/twitter/statuses/" + str(tweet.id)
-        print("Url: ", url)
-        print("ID: ", tweet.id)
-
-        print("\n")
-
-#Testing function
-#def test():
-    #Nothing for now :)
-#    a=1
 
 def findName(text):
     #Refresh Output
@@ -142,12 +102,15 @@ def findName(text):
     
     return fullName
 
+
+#Use wget to download the images from Twitter
 def downloadImages(person, url):
     filename = person+url[-7]
     filename = filename.replace(" ", "")
     downloadCommand = "cd img && wget -O \""+filename+".jpg\" " +url
     os.system(downloadCommand)
     return "/img/"+filename+".jpg"
+
 
 #Checks if the last stored tweet in the file is the latest tweet
 def newTweet():
@@ -172,7 +135,8 @@ def newTweet():
     else:
         #print("We don't have the latest tweet.", latestFileID, latestID)
         return True
-        
+
+
 #Checks how up to date is our data and update if we are missing tweets.Tells how many tweets we are missing.
 def numOfTweetsToDownload():
     latestID=-1
@@ -211,10 +175,6 @@ def numOfTweetsToDownload():
 
 
 def main():
-    #print("a")
-    #setFileTemplate()
-    #downloadImages = False
-    #processTweetsToFile(downloadImages)
     if (newTweet()):
         amount = numOfTweetsToDownload()
         print(f'There are {amount} new tweets, starting download...')
@@ -222,9 +182,7 @@ def main():
         processTweetsToFile(downloadImages, amount)
     else:
         print("No new tweets. \nExiting the program.")
-    
-    #processTweetsToTerm()
+
 
 if __name__ == "__main__":
     main()
-
