@@ -144,6 +144,7 @@ def findName(text):
 
 def downloadImages(person, url):
     filename = person+url[-7]
+    filename = filename.replace(" ", "")
     downloadCommand = "cd img && wget -O \""+filename+".jpg\" " +url
     os.system(downloadCommand)
     return "/img/"+filename+".jpg"
