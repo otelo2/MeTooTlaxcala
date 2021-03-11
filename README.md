@@ -13,7 +13,20 @@ Clonar el repositorio.
 Entrar a la carpeta clonada y correr: 
   ```pip3 -r requirements.txt```
   
-Para poner la descarga y push automático:
+### Archivo keys.py:
+
+Crea un nuevo archivo llamado keys.py con la siguiente estructura:
+
+```
+apiKey = "<25 chars>"
+apiSecret = "<50 chars>"
+bearerToken = "<112 chars>"
+accessToken = "<50 chars>"
+accessTokenSecret = "<45 chars>"
+```
+Sustituyendo <X chars> por tu clave de API de Twitter.
+
+### Para poner la descarga y push automático:
 
 Descarga de Tweets automática (Sólo Linux):
 ```crontab -e ```
@@ -25,7 +38,7 @@ En la última linea del archivo que se abre añadir:
 Esto va a correr el programa cada día a las 12:05am.
 
 
-Backup a GitHub:
+### Backup a GitHub:
 
 ```git config credential.helper store```
 
