@@ -72,6 +72,10 @@ def findName(text):
     nameFile.close()
 
     #Text in which we search for names
+    #Remove commas, dots, and ""
+    text = text.replace(",","")
+    text = text.replace(".","")
+    text = text.replace("\"","")
     #Convert the string into a list
     textList = text.split()
 
