@@ -1,12 +1,7 @@
 #!/usr/bin/python3
 import tweepy
-import json
 import os
 from keys import apiKey, apiSecret, accessToken, accessTokenSecret
-
-auth = tweepy.OAuthHandler(apiKey, apiSecret)
-auth.set_access_token(accessToken, accessTokenSecret)
-api = tweepy.API(auth)
 
 class TweetDownloader:
     #Constructor
@@ -22,13 +17,13 @@ class TweetDownloader:
         f.close()
 
     #Used for downloading the tweets from the account, processing them and storing them in a text file.
-    #No terminal output except for wget
+    #No terminal output except for wget 
     def processTweetsToFile(self, images=True, numOfTweets=3000):
         #Open the file where the tweets are stored
         f = open("tweets.txt", 'a', encoding="utf-8")
         
         tweets = []
-        for tweet in tweepy.Cursor(api.user_timeline, id='MeToo_Tlx', exclude_replies=True, include_rts=False, tweet_mode='extended').items(numOfTweets):
+        for tweet in tweepy.Cursor(self.api.user_timeline, id='MeToo_Tlx', exclude_replies=True, include_rts=False, tweet_mode='extended').items(numOfTweets):
             tweets.append(tweet)
 
         for tweet in reversed(tweets):
@@ -137,7 +132,7 @@ class TweetDownloader:
                 return True
 
         #Find ID of the latest tweet in Twitter
-        for tweet in tweepy.Cursor(api.user_timeline, id='MeToo_Tlx', exclude_replies=True, include_rts=False, tweet_mode='extended').items(1):
+        for tweet in tweepy.Cursor(self.api.user_timeline, id='MeToo_Tlx', exclude_replies=True, include_rts=False, tweet_mode='extended').items(1):
             latestID = tweet.id
         
         #Check if they are the same
@@ -166,7 +161,7 @@ class TweetDownloader:
                 return 3000
 
         #Find ID of the most recent tweet in Twitter
-        for tweet in tweepy.Cursor(api.user_timeline, id='MeToo_Tlx', exclude_replies=True, include_rts=False, tweet_mode='extended').items(check):
+        for tweet in tweepy.Cursor(self.api.user_timeline, id='MeToo_Tlx', exclude_replies=True, include_rts=False, tweet_mode='extended').items(check):
             latestID = tweet.id
 
         if int(latestFileID) != latestID:
@@ -174,7 +169,7 @@ class TweetDownloader:
             #While we dont have the latest tweet, count how many we have to download
             while int(latestFileID) != latestID:
                 #Find ID of the latest tweet in Twitter
-                for tweet in tweepy.Cursor(api.user_timeline, id='MeToo_Tlx', exclude_replies=True, include_rts=False, tweet_mode='extended').items(check):
+                for tweet in tweepy.Cursor(self.api.user_timeline, id='MeToo_Tlx', exclude_replies=True, include_rts=False, tweet_mode='extended').items(check):
                     latestID = tweet.id
                 
                 check = check + 1
