@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 import tweepy
-import os
 import requests
 import shutil
 from keys import apiKey, apiSecret, accessToken, accessTokenSecret
