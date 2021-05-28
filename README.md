@@ -45,6 +45,8 @@ Esto va a correr el programa cada día a las 12:05am.
 ```git pull```
 
 Ahora te va a pedir tus credenciales de github. Se hace para que las guarde y no las pida cada vez.
+  
+  Nota: Si tienes activado 2FA, necesitarás hacer esto del token en vez de tu contraseña: https://stackoverflow.com/questions/17659206/git-push-results-in-authentication-failed
 
 Añadimos al crontab el archivo gitBackup.sh
 
