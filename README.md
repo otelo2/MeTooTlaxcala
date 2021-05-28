@@ -45,6 +45,8 @@ Esto va a correr el programa cada día a las 12:05am.
 ```git pull```
 
 Ahora te va a pedir tus credenciales de github. Se hace para que las guarde y no las pida cada vez.
+  
+  Nota: Si tienes activado 2FA, necesitarás hacer esto del token en vez de tu contraseña: https://stackoverflow.com/questions/17659206/git-push-results-in-authentication-failed
 
 Añadimos al crontab el archivo gitBackup.sh
 
@@ -55,3 +57,21 @@ En la última linea del archivo que se abre añadir:
 ```10 0 * * * /home/<tu_usuario>/MeTooTlaxcala/gitBackup.sh```
 
 Esto va a hacer el backup a git cada día a las 12:10am.
+  
+  
+### Sincronizar con GitHub:  
+Para que el repositorio automaticamente se actualice a la versión más reciente.
+Se hace cada día a media noche.
+  
+  ```contab -e ```
+  
+  Añadimos al archivo que se abre:
+  
+  1 0 * * * /home/<tu_usuario>/MeTooTlaxcala/gitPull.sh
+  
+  ### Crontab completo
+A la fecha, el crontab completo se ve así:
+  ```
+  1 0 * * * /home/<tu_usuario>/MeTooTlaxcala/gitPull.sh
+  5 0 * * * cd /home/<tu_usuario>/MeTooTlaxcala && /home/pi/MeTooTlaxcala/tweetDownloader.py >> ~/cron.log 2>&1
+  10 0 * * * /home/<tu_usuario>/MeTooTlaxcala/gitBackup.sh
