@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 from TweetDownloader import TweetDownloader
+from datetime import datetime
 
 def main():
     tweetDownloader = TweetDownloader()
@@ -9,7 +10,7 @@ def main():
         downloadImages = True
         tweetDownloader.processTweetsToFile(downloadImages, amount)
     else:
-        print("No new tweets. \nExiting the program.")
+        print(f"No new tweets on {datetime.now()}. \nExiting the program.")
 
 
 if __name__ == "__main__":
