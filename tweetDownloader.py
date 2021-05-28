@@ -1,6 +1,8 @@
 #!/usr/bin/python3
 import tweepy
 import os
+import requests
+import shutil
 from keys import apiKey, apiSecret, accessToken, accessTokenSecret
 
 class TweetDownloader:
@@ -112,11 +114,32 @@ class TweetDownloader:
 
     #Use wget to download the images from Twitter
     def downloadImages(self, person, url):
-        filename = person+url[-7]
+        #Set the filename as the persons name
+        #Adding some symbols so images dont overwrite
+        filename = person+url[-7]+url[-6]+url[-5]
+
+        #Remove the spaces of the name
         filename = filename.replace(" ", "")
-        downloadCommand = "cd img && wget -O \""+filename+".jpg\" " +url
-        os.system(downloadCommand)
-        return "/img/"+filename+".jpg"
+
+        #Get the content of the image from the url
+        req = requests.get(url, stream=True)
+
+        #If image retrieval was successful
+        if req.status_code == 200:
+            #So the image has a size
+            req.raw.decode_content = True
+
+            #Save image to the img directory. 
+            with open('img/'+filename, 'wb') as f:
+                shutil.copyfileobj(req.raw, f)
+
+            #Sucess maybe.
+            print("Saved image to: img/"+filename)
+
+            #Return the path to the image
+            return "/img/"+filename+".jpg"
+        else:
+            print("There was an error getting the image. "+req.status_code)
 
 
     #Checks if the last stored tweet in the file is the latest tweet
