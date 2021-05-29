@@ -25,6 +25,18 @@ accessToken = "<50 chars>"
 accessTokenSecret = "<45 chars>"
 ```
 Sustituyendo <X chars> por tu clave de API de Twitter.
+  
+### Archivo dbKeys.py:
+
+Crea un nuevo archivo llamado keys.py con la siguiente estructura:
+
+```
+DB_HOST = "<host remoto o localhost>"
+DB_NAME = "MeTooTlaxcala"
+DB_USER = "<postgres u otro usuario>"
+DB_PASS = "<contraseña de db>"
+```
+Se ponen los valores según esté hecha la base de datos. Contacta al administrador de la base de datos para obtener esta información
 
 ### Para poner la descarga y push automático:
 
