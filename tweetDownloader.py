@@ -28,18 +28,16 @@ class TweetDownloader:
             tweets.append(tweet)
 
         for tweet in reversed(tweets):
-            #Clear the output for the text file
-            textForFile = ''
-
             #Name of the person
             nombre = self.findName(tweet.full_text)
-            textForFile += nombre + "    "
 
             #Text of the tweet
             denuncia = tweet.full_text
-            textForFile += denuncia + "    "
+            #Remove commas so there isn't problems when splitting the file
+            denuncia = denuncia.replace(",","")
 
             #Images of the tweet
+            imgDirectory = ""
             if "media" in tweet.entities:
                 for media in tweet.extended_entities['media']:
                     #print(len(tweet.extended_entities['media']))
@@ -47,19 +45,17 @@ class TweetDownloader:
                     #Download images (or not)
                     if images == True:
                         imgDirectory = self.downloadImages(nombre, url)
-                        textForFile += imgDirectory + "    "
+                        imgDirectory += f"{imgDirectory}, "
 
             #Time and date of the tweet
             fecha = str(tweet.created_at)
-            textForFile += fecha + "    "
 
             #Url of the tweet
             url = "https://twitter.com/twitter/statuses/" + str(tweet.id)
-            textForFile += url + "    "
-            textForFile += str(tweet.id) + "    "
 
             #Write the info to the text file
-            f.write(textForFile + "\n")
+            textForFile = f"{nombre}, {denuncia}, {imgDirectory}, {fecha}, {url}, {str(tweet.id)}\n"
+            f.write(textForFile)
         f.close()
 
 
