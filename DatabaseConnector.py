@@ -21,7 +21,7 @@ class DatabaseConnector:
                 #Just creates the table.
                 cur.execute("CREATE TABLE abusador (id SERIAL PRIMARY KEY, nombre VARCHAR, apellidoPaterno VARCHAR, \
                             apellidoMaterno VARCHAR, denuncia VARCHAR, imagen1 VARCHAR, imagen2 VARCHAR, imagen3 VARCHAR, \
-                            imagen4 VARCHAR, fecha DATE, hora TIME, link VARCHAR, tweetID UNIQUE VARCHAR);")
+                            imagen4 VARCHAR, fecha DATE, hora TIME, link VARCHAR, tweetID VARCHAR);")
 
 #Drops the database table schema
     def dropTable():
@@ -35,7 +35,7 @@ class DatabaseConnector:
                 #Just creates the table.
                 cur.execute("DROP TABLE abusador;")
 
-    def addToTable(nombre, apellidoPaterno, apellidoMaterno, denuncia, imagen1, imagen2, imagen3, imagen4, fecha, link, tweetID):
+    def addToTable(nombre, apellidoPaterno, apellidoMaterno, denuncia, imagen1, imagen2, imagen3, imagen4, fecha, hora, link, tweetID):
         #Connect to the database
         conn = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASS, host=DB_HOST)
         with conn:
@@ -44,7 +44,7 @@ class DatabaseConnector:
                 #id | nombre | apellidoPaterno | apellidoMaterno | denuncia | imagen1 | imagen2 | imagen3 | imagen4 | fecha | link | tweetID
                 #Just creates the table.
                 query = f"INSERT INTO abusador VALUES(DEFAULT, '{nombre}', '{apellidoPaterno}', '{apellidoMaterno}', '{denuncia}', \
-                    '{imagen1}', '{imagen2}', '{imagen3}', '{imagen4}', '{fecha}', '{link}', '{tweetID}');"
+                    '{imagen1}', '{imagen2}', '{imagen3}', '{imagen4}', '{fecha}', '{hora}', '{link}', '{tweetID}');"
                 cur.execute(query)
 
     def testQueryINSERT():
@@ -63,11 +63,12 @@ class DatabaseConnector:
                 imagen2 = "/img/SantiagoYaelPérez--5Ff.jpg"
                 imagen3 = "/img/SantiagoYaelPérez--umu.jpg"
                 imagen4 = "/img/SantiagoYaelPérez--ZFO.jpg"
-                fecha = "2021-03-26 03:38:39"
+                fecha = "2021-03-26"
+                hora = "03:38:39"
                 link = "https://twitter.com/twitter/statuses/1375291080170741760"
                 tweetID = "1375291080170741760"
                 query = f"INSERT INTO abusador VALUES(DEFAULT, '{nombre}', '{apellidoPaterno}', '{apellidoMaterno}', '{denuncia}', \
-                    '{imagen1}', '{imagen2}', '{imagen3}', '{imagen4}', '{fecha}', '{link}', '{tweetID}');"
+                    '{imagen1}', '{imagen2}', '{imagen3}', '{imagen4}', '{fecha}', '{hora}', '{link}', '{tweetID}');"
                 cur.execute(query)
 
     def testQuerySELECT():
