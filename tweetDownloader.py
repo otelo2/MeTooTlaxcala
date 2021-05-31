@@ -48,13 +48,16 @@ class TweetDownloader:
                         imgDirectory += f"{self.downloadImages(nombre, url)}, "
 
             #Time and date of the tweet
-            fecha = str(tweet.created_at)
+            date = str(tweet.created_at)
+            date = date.split(" ")
+            fecha = date[0]
+            hora = date[1]
 
             #Url of the tweet
             url = "https://twitter.com/twitter/statuses/" + str(tweet.id)
 
             #Write the info to the text file
-            textForFile = f"{nombre}, {denuncia}, {imgDirectory}, {fecha}, {url}, {str(tweet.id)}\n"
+            textForFile = f"{nombre}, {denuncia}, {imgDirectory}, {fecha}, {hora}, {url}, {str(tweet.id)}\n"
             f.write(textForFile)
         f.close()
 
