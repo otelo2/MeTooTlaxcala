@@ -44,8 +44,8 @@ class TweetDownloader:
                     url = media['media_url']
                     #Download images (or not)
                     if images == True:
-                        imgDirectory = self.downloadImages(nombre, url)
-                        imgDirectory += f"{imgDirectory}, "
+                        #downloadImages regresa el nombre del archivo
+                        imgDirectory += f"{self.downloadImages(nombre, url)}, "
 
             #Time and date of the tweet
             fecha = str(tweet.created_at)
