@@ -45,7 +45,7 @@ Descarga de Tweets automática (Sólo Linux):
     
 En la última linea del archivo que se abre añadir:
     
-```5 0 * * * cd /home/<tu_usuario>/MeTooTlaxcala && /home/<tu_usuario>/MeTooTlaxcala/tweetDownloader.py >> ~/cron.log 2>&1```
+```5 0 * * * cd /home/<tu_usuario>/MeTooTlaxcala && /home/<tu_usuario>/MeTooTlaxcala/main.py >> ~/cron.log 2>&1```
     
 Esto va a correr el programa cada día a las 12:05am.
 
@@ -66,7 +66,7 @@ Añadimos al crontab el archivo gitBackup.sh
 
 En la última linea del archivo que se abre añadir:
 
-```10 0 * * * /home/<tu_usuario>/MeTooTlaxcala/gitBackup.sh```
+```10 0 * * * /home/<tu_usuario>/MeTooTlaxcala/gitBackup.sh >> ~/gitBackup.log 2>&1```
 
 Esto va a hacer el backup a git cada día a las 12:10am.
   
@@ -79,11 +79,11 @@ Se hace cada día a media noche.
   
   Añadimos al archivo que se abre:
   
-  1 0 * * * /home/<tu_usuario>/MeTooTlaxcala/gitPull.sh
+  ```1 0 * * * /home/<tu_usuario>/MeTooTlaxcala/gitPull.sh >> ~/gitPull.log 2>&1```
   
   ### Crontab completo
 A la fecha, el crontab completo se ve así:
   ```
-  1 0 * * * /home/<tu_usuario>/MeTooTlaxcala/gitPull.sh
-  5 0 * * * cd /home/<tu_usuario>/MeTooTlaxcala && /home/pi/MeTooTlaxcala/tweetDownloader.py >> ~/cron.log 2>&1
-  10 0 * * * /home/<tu_usuario>/MeTooTlaxcala/gitBackup.sh
+  1 0 * * * /home/<tu_usuario>/MeTooTlaxcala/gitPull.sh >> ~/gitPull.log 2>&1
+  5 0 * * * cd /home/<tu_usuario>/MeTooTlaxcala && /home/pi/MeTooTlaxcala/main.py >> ~/mainCron.log 2>&1
+  10 0 * * * /home/<tu_usuario>/MeTooTlaxcala/gitBackup.sh >> ~/gitBackup.log 2>&1
