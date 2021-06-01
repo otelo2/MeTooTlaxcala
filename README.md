@@ -87,3 +87,6 @@ A la fecha, el crontab completo se ve así:
   1 0 * * * /home/<tu_usuario>/MeTooTlaxcala/gitPull.sh >> ~/gitPull.log 2>&1
   5 0 * * * cd /home/<tu_usuario>/MeTooTlaxcala && /home/pi/MeTooTlaxcala/main.py >> ~/mainCron.log 2>&1
   10 0 * * * /home/<tu_usuario>/MeTooTlaxcala/gitBackup.sh >> ~/gitBackup.log 2>&1
+
+### Instalar base de datos PostgreSQL
+  https://www.youtube.com/watch?v=4kxRlnawpDc
