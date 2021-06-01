@@ -3,13 +3,13 @@ import psycopg2.extras
 from dbKeys import DB_HOST, DB_NAME, DB_USER, DB_PASS
 
 class DatabaseConnector:
-    #Constructor
+#Constructor
     def __init__(self):
         #conn = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASS, host=DB_HOST)
         a=1
         #conn.close()
 
-    #Creates the database table schema
+#Creates the database table schema
     def createTable():
         #Connect to the database
         conn = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASS, host=DB_HOST)
@@ -35,6 +35,7 @@ class DatabaseConnector:
                 #Just creates the table.
                 cur.execute("DROP TABLE abusador;")
 
+#Adds data to the database table
     def addToTable(nombre, apellidoPaterno, apellidoMaterno, denuncia, imagen1, imagen2, imagen3, imagen4, fecha, hora, link, tweetID):
         #Connect to the database
         conn = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASS, host=DB_HOST)
@@ -82,7 +83,7 @@ class DatabaseConnector:
                 cur.execute("SELECT * FROM abusador;")
                 print(cur.fetchall())
 
-    #Perform the query in the argument
+#Perform the query in the argument
     def customQuery(query):
         #Connect to the database
         conn = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASS, host=DB_HOST)
@@ -94,7 +95,7 @@ class DatabaseConnector:
                 cur.execute(str(query))
                 print(cur.fetchall())
 
-    #Adds the contents from thw tweets.txt file to the databse
+#Adds the contents from the tweets.txt file to the databse
     def tweetsFileToDatabase(self, verbose=True):
         try:
             with open("tweets.txt", "r", encoding="utf-8") as f:
@@ -122,5 +123,41 @@ class DatabaseConnector:
                         print(f"{index+1}: Added person {nombre} {apellidoPaterno} {apellidoMaterno}.")
             if verbose:
                 print(f"Added {index+1} entries to the database")
+        except FileNotFoundError:
+            print("File not found error")
+
+#Adds specific contents from the tweets.txt file to the databse
+    def specificTweetsFileToDatabase(self, verbose=True, amount=1000):
+        try:
+            with open("tweets.txt", "r", encoding="utf-8") as f:
+                lines = f.readlines()
+                print(f"amount = {amount}")
+                for index, line in enumerate(lines[::-1]):
+                    #Adds just the lines specified in the amount paramenter
+                    if int(index) == int(amount):
+                        print("Breaking now")
+                        break
+                    #Create a list of the relevant data
+                    line = line.split(",")
+                    #Put data into variables for verbosity
+                    nombre = line[0]
+                    apellidoPaterno = line[1]
+                    apellidoMaterno = line[2]
+                    denuncia = line[3]
+                    imagen1 = line[4]
+                    imagen2 = line[5]
+                    imagen3 = line[6]
+                    imagen4 = line[7]
+                    fecha = line[8]
+                    hora = line[9]
+                    link = line[10]
+                    tweetID = line[11]
+                    #Place the data in the database
+                    self.addToTable(nombre, apellidoPaterno, apellidoMaterno, denuncia, imagen1, imagen2, imagen3, imagen4, fecha, hora, link, tweetID)
+                    #Print the person who was just added
+                    if verbose:
+                        print(f"{index+1}: Added person {nombre} {apellidoPaterno} {apellidoMaterno}.")
+            if verbose:
+                print(f"Added {index} entries to the database")
         except FileNotFoundError:
             print("File not found error")
