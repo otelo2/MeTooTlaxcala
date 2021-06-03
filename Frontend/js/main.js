@@ -47,8 +47,10 @@ const outputHtml = matches => {
     if(matches.length > 0) {
         const html = matches.map(match => `
             <div class="card card-body mb-1">
-                <h4>${match.nombre} ${match.apellidopaterno} ${match.apellidomaterno} <span class="text-primary">${match.nombre}</span></h4>
-                <small>Lat: ${match.fecha} / Long: ${match.hora}</small>
+                <h4><span class="text-primary">${match.nombre}</span> ${match.apellidopaterno} ${match.apellidomaterno} </h4>
+                <small>Fecha: ${match.fecha} / Hora: ${match.hora} / Denuncia: ${match.denuncia}</small>
+                <img src="../Frontend${match.imagen1}" alt="Imagen 1 de abusador"></img>
+                <a href="${match.link}">${match.link}</a>
             </div>
         `
         ).join('');
