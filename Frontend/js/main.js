@@ -12,8 +12,27 @@ const searchAbusers = async searchText => {
         return abuser.nombre.match(regex) || abuser.apellidopaterno.match(regex) || abuser.apellidomaterno.match(regex);
     });
 
-    //We are at 12:51 https://www.youtube.com/watch?v=1iysNUrI3lw
-    console.log(matches);
+    if(searchText.length === 0) {
+        matches = [];
+        matchList.innerHTML = ''
+    }
+
+    outputHtml(matches);
+}
+
+//Show results in HTML
+const outputHtml = matches => {
+    if(matches.length > 0) {
+        const html = matches.map(match => `
+            <div class="card card-body mb-1">
+                <h4>${match.nombre} ${match.apellidopaterno} ${match.apellidomaterno} <span class="text-primary">${match.nombre}</span></h4>
+                <small>Lat: ${match.fecha} / Long: ${match.hora}</small>
+            </div>
+        `
+        ).join('');
+
+        matchList.innerHTML = html;
+    }
 }
 
 search.addEventListener('input', () => searchAbusers(search.value));
