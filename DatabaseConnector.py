@@ -118,10 +118,11 @@ class DatabaseConnector:
                     link = line[10]
                     tweetID = line[11]
                     #Place the data in the database
-                    self.addToTable(nombre, apellidoPaterno, apellidoMaterno, denuncia, imagen1, imagen2, imagen3, imagen4, fecha, hora, link, tweetID)
+                    #The [1:] is to remove the first space
+                    self.addToTable(nombre, apellidoPaterno[1:], apellidoMaterno[1:], denuncia[1:], imagen1[1:], imagen2[1:], imagen3[1:], imagen4[1:], fecha, hora, link[1:], tweetID[1:])
                     #Print the person who was just added
                     if verbose:
-                        print(f"{index+1}: Added person {nombre} {apellidoPaterno} {apellidoMaterno}.")
+                        print(f"{index+1}: Added person {nombre} {apellidoPaterno[1:]} {apellidoMaterno[1:]}.")
             if verbose:
                 print(f"Added {index+1} entries to the database")
         except FileNotFoundError:
@@ -154,10 +155,11 @@ class DatabaseConnector:
                     link = line[10]
                     tweetID = line[11]
                     #Place the data in the database
-                    self.addToTable(nombre, apellidoPaterno, apellidoMaterno, denuncia, imagen1, imagen2, imagen3, imagen4, fecha, hora, link, tweetID)
+                    #The [1:] is to remove the first space
+                    self.addToTable(nombre, apellidoPaterno[1:], apellidoMaterno[1:], denuncia[1:], imagen1[1:], imagen2[1:], imagen3[1:], imagen4[1:], fecha, hora, link[1:], tweetID[1:])
                     #Print the person who was just added
                     if verbose:
-                        print(f"{index+1}: Added person {nombre} {apellidoPaterno} {apellidoMaterno}.")
+                        print(f"{index+1}: Added person {nombre} {apellidoPaterno[1:]} {apellidoMaterno[1:]}.")
             if verbose:
                 print(f"Added {index} entries to the database")
         except FileNotFoundError:
