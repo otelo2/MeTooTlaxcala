@@ -31,6 +31,21 @@ const searchAbusers = async searchText => {
         if(abuser.imagen4=="NULL"){
             abuser.imagen4=""
         }
+
+        //Remove special symbols (#) in image path
+        if(abuser.imagen1.includes("#")){
+            abuser.imagen1 = abuser.imagen1.replace("#", "%23")
+        }
+        if(abuser.imagen2.includes("#")){
+            abuser.imagen2 = abuser.imagen2.replace("#", "%23")
+        }
+        if(abuser.imagen3.includes("#")){
+            abuser.imagen3 = abuser.imagen3.replace("#", "%23")
+        }
+        if(abuser.imagen4.includes("#")){
+            abuser.imagen4 = abuser.imagen4.replace("#", "%23")
+        }
+
         return abuser.nombre.match(regex) || abuser.apellidopaterno.match(regex) || abuser.apellidomaterno.match(regex);
     });
 
@@ -48,8 +63,12 @@ const outputHtml = matches => {
         const html = matches.map(match => `
             <div class="card card-body mb-1">
                 <h4><span class="text-primary">${match.nombre}</span> ${match.apellidopaterno} ${match.apellidomaterno} </h4>
-                <small>Fecha: ${match.fecha} / Hora: ${match.hora} / Denuncia: ${match.denuncia}</small>
-                <img src="../Frontend${match.imagen1}" alt="Imagen 1 de abusador"></img>
+                <small>${match.denuncia}</small>
+                <img src="../Frontend${match.imagen1}" alt="${match.imagen1}"></img>
+                <img src="../Frontend${match.imagen2}" alt="${match.imagen2}"></img>
+                <img src="../Frontend${match.imagen3}" alt="${match.imagen3}"></img>
+                <img src="../Frontend${match.imagen4}" alt="${match.imagen4}"></img>
+                <small>${match.fecha}  ${match.hora}</small>
                 <a href="${match.link}">${match.link}</a>
             </div>
         `
