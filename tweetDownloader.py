@@ -133,7 +133,7 @@ class TweetDownloader:
                 shutil.copyfileobj(req.raw, f)
 
             #Sucess maybe.
-            print("Saved image to: Frontend/img/"+filename+".jpg")
+            print(f"Saved image to: Frontend/img/{filename}.jpg")
 
             #Return the path to the image
             return "/img/"+filename+".jpg"
