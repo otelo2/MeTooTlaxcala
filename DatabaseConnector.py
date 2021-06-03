@@ -1,5 +1,6 @@
 import psycopg2
 import psycopg2.extras
+import json
 from dbKeys import DB_HOST, DB_NAME, DB_USER, DB_PASS
 
 class DatabaseConnector:
@@ -161,3 +162,19 @@ class DatabaseConnector:
                 print(f"Added {index} entries to the database")
         except FileNotFoundError:
             print("File not found error")
+
+#Perform the query in the argument
+    def databaseToJSON():
+        #Connect to the database
+        conn = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASS, host=DB_HOST)
+        with conn:
+            #Create the cursor. Result is in a dictionary
+            with conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cur:
+                #id | nombre | apellidoPaterno | apellidoMaterno | denuncia | imagen1 | imagen2 | imagen3 | imagen4 | fecha | hora | link | tweetID
+                #Performs the query to put into a json file the contents of the database
+                cur.execute("SELECT * FROM abusador;")
+
+                #Write the output to file
+                with open("Frontend/data/abusador.json", "w", encoding="utf-8") as f:
+                    f.write(str(json.dumps(cur.fetchall(), indent=4, sort_keys=False, default=str)))
+                    print("Wrote file to /Frontend/data/abusador.json")
