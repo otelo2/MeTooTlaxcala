@@ -164,7 +164,7 @@ class DatabaseConnector:
             print("File not found error")
 
 #Perform the query in the argument
-    def databaseToJSON():
+    def databaseToJSON(self):
         #Connect to the database
         conn = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASS, host=DB_HOST)
         with conn:

@@ -16,6 +16,8 @@ def main():
         tweetDownloader.processTweetsToFile(True, amount)
         #Adds the specified amount of tweets to the database
         databaseConnector.specificTweetsFileToDatabase(True, amount)
+        #Exports the whole databasase to a json file in Frontend/data
+        databaseConnector.databaseToJSON()
     else:
         print(f"No new tweets on {datetime.now()}. \nExiting the program.")
 
