@@ -3,7 +3,7 @@ const matchList = document.getElementById('match-list');
 
 //Searchs for the abusers in the abusador.json and filters them
 const searchAbusers = async searchText => {
-    const res = await fetch('../Frontend/data/abusador.json');
+    const res = await fetch('../data/abusador.json');
     const abusers = await res.json();
 
     //Get matches to current text input
@@ -64,10 +64,10 @@ const outputHtml = matches => {
             <div class="card card-body mb-1">
                 <h4><span class="text-primary">${match.nombre}</span> ${match.apellidopaterno} ${match.apellidomaterno} </h4>
                 <small>${match.denuncia}</small>
-                <img src="../Frontend${match.imagen1}" alt="${match.imagen1}"></img>
-                <img src="../Frontend${match.imagen2}" alt="${match.imagen2}"></img>
-                <img src="../Frontend${match.imagen3}" alt="${match.imagen3}"></img>
-                <img src="../Frontend${match.imagen4}" alt="${match.imagen4}"></img>
+                <img src="../${match.imagen1}" alt="${match.imagen1}"></img>
+                <img src="../${match.imagen2}" alt="${match.imagen2}"></img>
+                <img src="../${match.imagen3}" alt="${match.imagen3}"></img>
+                <img src="../${match.imagen4}" alt="${match.imagen4}"></img>
                 <small>${match.fecha}  ${match.hora}</small>
                 <a href="${match.link}">${match.link}</a>
             </div>
