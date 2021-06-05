@@ -63,7 +63,7 @@ const outputHtml = matches => {
         const html = matches.map(match => `
             <div class="card card-body mb-1">
                 <h4><span class="text-primary">${match.nombre}</span> ${match.apellidopaterno} ${match.apellidomaterno} </h4>
-                <small>${match.denuncia}</small>
+                <h6 class="card-subtitle mb-2 text-muted">${match.denuncia}</h6>
                 <img src="../${match.imagen1}" alt="${match.imagen1}"></img>
                 <img src="../${match.imagen2}" alt="${match.imagen2}"></img>
                 <img src="../${match.imagen3}" alt="${match.imagen3}"></img>
