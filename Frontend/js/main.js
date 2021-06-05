@@ -49,6 +49,12 @@ const searchAbusers = async searchText => {
         return abuser.nombre.match(regex) || abuser.apellidopaterno.match(regex) || abuser.apellidomaterno.match(regex);
     });
 
+    console.log(matches)
+
+    if(matches.length === 0) {
+        matchList.innerHTML = '<p class="text-warning">No se encontraron coincidencias para tu búsqueda</p>'
+    }
+
     if(searchText.length === 0) {
         matches = [];
         matchList.innerHTML = ''
