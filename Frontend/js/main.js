@@ -1,5 +1,6 @@
 const search = document.getElementById('search');
 const matchList = document.getElementById('match-list');
+const accent_map = {'á':'a', 'é':'e', 'í':'i','ó':'o','ú':'u'};
 
 //Searchs for the abusers in the abusador.json and filters them
 const searchAbusers = async searchText => {
@@ -8,7 +9,7 @@ const searchAbusers = async searchText => {
 
     //Get matches to current text input
     let matches = abusers.filter(abuser => {
-        const regex = new RegExp(`^${searchText}`, 'gi');
+        const regex = new RegExp(`^${accent_fold(searchText)}`, 'gi');
         //Replace NULL's with nothing. This isn't good, but idc
         if(abuser.nombre=="NULL"){
             abuser.nombre=""
@@ -46,10 +47,31 @@ const searchAbusers = async searchText => {
             abuser.imagen4 = abuser.imagen4.replaceAll("#", "%23")
         }
 
-        return abuser.nombre.match(regex) || abuser.apellidopaterno.match(regex) || abuser.apellidomaterno.match(regex);
+        //Accent folding
+        abuser.nombre = accent_fold(abuser.nombre)
+        abuser.apellidopaterno = accent_fold(abuser.apellidopaterno)
+        abuser.apellidomaterno = accent_fold(abuser.apellidomaterno)
+
+        //Get first and second name, if any
+        nombres = abuser.nombre.split(" ")
+        primerNombre = nombres[0]
+        segundoNombre = nombres[1]
+        
+        if (segundoNombre === undefined) {
+            return primerNombre.match(regex) || abuser.apellidopaterno.match(regex) || abuser.apellidomaterno.match(regex);
+        }
+        if (primerNombre === undefined) {
+            return  segundoNombre.match(regex) || abuser.apellidopaterno.match(regex) || abuser.apellidomaterno.match(regex);
+        }
+        if (primerNombre === undefined && segundoNombre === undefined) {
+            return abuser.apellidopaterno.match(regex) || abuser.apellidomaterno.match(regex);
+        }
+        else {
+            return primerNombre.match(regex) || segundoNombre.match(regex) || abuser.apellidopaterno.match(regex) || abuser.apellidomaterno.match(regex);
+        }
     });
 
-    console.log(matches)
+    
 
     if(matches.length === 0) {
         matchList.innerHTML = '<p class="text-warning">No se encontraron coincidencias para tu búsqueda</p>'
@@ -85,3 +107,12 @@ const outputHtml = matches => {
 }
 
 search.addEventListener('input', () => searchAbusers(search.value));
+
+function accent_fold (s) {
+    if (!s) { return ''; }
+    var ret = '';
+    for (var i = 0; i < s.length; i++) {
+        ret += accent_map[s.charAt(i)] || s.charAt(i);
+    }
+    return ret;
+};
