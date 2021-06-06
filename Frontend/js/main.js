@@ -34,16 +34,16 @@ const searchAbusers = async searchText => {
 
         //Remove special symbols (#) in image path
         if(abuser.imagen1.includes("#")){
-            abuser.imagen1 = abuser.imagen1.replace("#", "%23")
+            abuser.imagen1 = abuser.imagen1.replaceAll("#", "%23")
         }
         if(abuser.imagen2.includes("#")){
-            abuser.imagen2 = abuser.imagen2.replace("#", "%23")
+            abuser.imagen2 = abuser.imagen2.replaceAll("#", "%23")
         }
         if(abuser.imagen3.includes("#")){
-            abuser.imagen3 = abuser.imagen3.replace("#", "%23")
+            abuser.imagen3 = abuser.imagen3.replaceAll("#", "%23")
         }
         if(abuser.imagen4.includes("#")){
-            abuser.imagen4 = abuser.imagen4.replace("#", "%23")
+            abuser.imagen4 = abuser.imagen4.replaceAll("#", "%23")
         }
 
         return abuser.nombre.match(regex) || abuser.apellidopaterno.match(regex) || abuser.apellidomaterno.match(regex);
