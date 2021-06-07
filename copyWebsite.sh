@@ -1,1 +1,1 @@
-cp -a Frontend/. /var/www/html/
+cp -av Frontend/. /var/www/html/
