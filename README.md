@@ -11,7 +11,7 @@ Empieza en tu directorio home
 Clonar el repositorio.
 
 Entrar a la carpeta clonada y correr: 
-  ```pip3 -r requirements.txt```
+  ```pip3 install -r requirements.txt```
   
 ### Archivo keys.py:
 
@@ -24,11 +24,19 @@ bearerToken = "<112 chars>"
 accessToken = "<50 chars>"
 accessTokenSecret = "<45 chars>"
 ```
-Sustituyendo <X chars> por tu clave de API de Twitter.
+Sustituyendo <X chars> por tu clave de [API de Twitter](https://developer.twitter.com/en/portal/dashboard).
+
+  ### Instalar base de datos PostgreSQL
+  https://www.youtube.com/watch?v=4kxRlnawpDc
+  
+  sudo apt install postgresql postgresql-contrib
+  sudo -u postgres psql
+    alter user postgres with password '<contraseña>';
+  sudo -u postgres createdb MeTooTlaxcala
   
 ### Archivo dbKeys.py:
 
-Crea un nuevo archivo llamado keys.py con la siguiente estructura:
+Crea un nuevo archivo llamado dbKeys.py con la siguiente estructura:
 
 ```
 DB_HOST = "<host remoto o localhost>"
@@ -37,6 +45,23 @@ DB_USER = "<postgres u otro usuario>"
 DB_PASS = "<contraseña de db>"
 ```
 Se ponen los valores según esté hecha la base de datos. Contacta al administrador de la base de datos para obtener esta información
+  
+Ejecutar python3 main.py para crear la base de datos y montar los datos iniciales.
+  
+Los datos se guardan en el archivo tweet.py . Estos datos son los que deben pasarse a la base de datos y posteriormente al frontend.
+  Para pasarlos a la base de datos por primera vez, debes correr el archivo del conector de la base de datos en modo interactivo y correr el metodo adecuado
+  
+  python3 -i DatabaseConnector
+  DatabaseConnector.tweetsFileToDatabase(DatabaseConnector)
+  
+  Ya que estás en la ventana interactiva, igual puedes hacer el archivo JSON
+  
+  DatabaseConnector.databaseToJSON(DatabaseConnector)
+  
+NOTA IMPORTANTE!
+  Después de cada descarga de tweets nuevos, debes meterte a tweets.txt para poner los datos en el formato correcto.
+  
+  
 
 ### Para poner la descarga y push automático:
 
@@ -88,5 +113,4 @@ A la fecha, el crontab completo se ve así:
   5 0 * * * cd /home/<tu_usuario>/MeTooTlaxcala && /home/pi/MeTooTlaxcala/main.py >> ~/mainCron.log 2>&1
   10 0 * * * /home/<tu_usuario>/MeTooTlaxcala/gitBackup.sh >> ~/gitBackup.log 2>&1
 
-### Instalar base de datos PostgreSQL
-  https://www.youtube.com/watch?v=4kxRlnawpDc
+
