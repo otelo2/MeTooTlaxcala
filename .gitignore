@@ -1,3 +1,8 @@
 keys.py
 __pycache__/keys.cpython-39.pyc
 dbKeys.py
+__pycache__/DatabaseConnector.cpython-38.pyc
+__pycache__/dbKeys.cpython-38.pyc
+__pycache__/keys.cpython-38.pyc
+__pycache__/TweetDownloader.cpython-38.pyc
+.vscode/settings.json

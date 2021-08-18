@@ -2188,5 +2188,20 @@
         "hora": "03:38:39",
         "link": "https://twitter.com/twitter/statuses/1375291080170741760",
         "tweetid": "1375291080170741760\n"
+    },
+    {
+        "id": 147,
+        "nombre": "Alejandro",
+        "apellidopaterno": "Dom\u00ednguez",
+        "apellidomaterno": "Zamora",
+        "denuncia": "Profesor Alejandro Dom\u00ednguez Zamora de la Fray Apizaco. #MeToo #MeTooTlaxcala https://t.co/z4wGB4BYzS",
+        "imagen1": "/img/AlejandroDom\u00ednguezZamora--8Ej.jpg",
+        "imagen2": "NULL",
+        "imagen3": "NULL",
+        "imagen4": "NULL",
+        "fecha": "2021-08-18",
+        "hora": "02:20:35",
+        "link": "https://twitter.com/twitter/statuses/1427817671530147846",
+        "tweetid": "1427817671530147846"
     }
 ]
