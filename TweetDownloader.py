@@ -137,8 +137,7 @@ class TweetDownloader:
 
             #Return the path to the image
             return "/img/"+filename+".jpg"
-        else:
-            print("There was an error getting the image. "+req.status_code)
+        print("There was an error getting the image. "+req.status_code)
 
 
     #Checks if the last stored tweet in the file is the latest tweet
@@ -159,14 +158,13 @@ class TweetDownloader:
         #Find ID of the latest tweet in Twitter
         for tweet in tweepy.Cursor(api.user_timeline, id='MeToo_Tlx', exclude_replies=True, include_rts=False, tweet_mode='extended').items(1):
             latestID = tweet.id
-        
+
         #Check if they are the same
         if (int(latestFileID) == latestID):
             #print("We already have the latest tweet. ", latestFileID, latestID)
             return False
-        else:
-            #print("We don't have the latest tweet.", latestFileID, latestID)
-            return True
+        #print("We don't have the latest tweet.", latestFileID, latestID)
+        return True
 
 
     #Checks how up to date is our data and update if we are missing tweets.Tells how many tweets we are missing.
