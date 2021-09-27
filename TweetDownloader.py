@@ -70,7 +70,7 @@ class TweetDownloader:
 
         #Open the list of names
         nameFile = open("nombresMasculinos.txt", 'r', encoding='utf-8')
-        nameSet = set(line.strip() for line in nameFile)
+        nameSet = {line.strip() for line in nameFile}
         nameFile.close()
 
         #Text in which we search for names
