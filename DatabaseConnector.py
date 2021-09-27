@@ -25,7 +25,7 @@ class DatabaseConnector:
                             imagen4 VARCHAR, fecha DATE, hora TIME, link VARCHAR, tweetID VARCHAR);")
 
 #Drops the database table schema
-    def dropTable():
+    def dropTable(self):
         #Connect to the database
         conn = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASS, host=DB_HOST)
         with conn:
@@ -49,7 +49,7 @@ class DatabaseConnector:
                     '{imagen1}', '{imagen2}', '{imagen3}', '{imagen4}', '{fecha}', '{hora}', '{link}', '{tweetID}');"
                 cur.execute(query)
 
-    def testQueryINSERT():
+    def testQueryINSERT(self):
         #Connect to the database
         conn = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASS, host=DB_HOST)
         with conn:
@@ -73,7 +73,7 @@ class DatabaseConnector:
                     '{imagen1}', '{imagen2}', '{imagen3}', '{imagen4}', '{fecha}', '{hora}', '{link}', '{tweetID}');"
                 cur.execute(query)
 
-    def testQuerySELECT():
+    def testQuerySELECT(self):
         #Connect to the database
         conn = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASS, host=DB_HOST)
         with conn:
