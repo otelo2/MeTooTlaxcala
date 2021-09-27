@@ -43,7 +43,7 @@ class TweetDownloader:
                     #print(len(tweet.extended_entities['media']))
                     url = media['media_url']
                     #Download images (or not)
-                    if images == True:
+                    if images is True:
                         #downloadImages regresa el nombre del archivo
                         imgDirectory += f"{self.downloadImages(nombre, url)}, "
 
